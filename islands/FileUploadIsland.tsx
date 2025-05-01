@@ -1,12 +1,13 @@
 // islands/FileUploadIsland.tsx
 import { useSignal } from "@preact/signals";
+import { useRef } from "preact/hooks";
 import { FileUploadBox } from "../components/FileUploadBox.tsx";
 
 interface FileUploadIslandProps {
   onFileSelect: (file: File) => void;
   maxSizeInMB?: number;
   acceptedFileTypes: string[];
-  title: string;  // Added title prop
+  title: string;
 }
 
 export default function FileUploadIsland({ 
@@ -17,37 +18,26 @@ export default function FileUploadIsland({
 }: FileUploadIslandProps) {
   const uploadStatus = useSignal<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const errorMessage = useSignal<string>('');
-  const inputId = `fileInput-${title.replace(/\s+/g, '')}`;  // Generate unique ID for each input
+  const isDragging = useSignal<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = `fileInput-${title.replace(/\s+/g, '')}`;
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // Add visual feedback for drag over
-    const uploadBox = (e.currentTarget as HTMLElement).querySelector('.upload-box');
-    if (uploadBox) {
-      uploadBox.classList.add('drag-over');
-    }
+    isDragging.value = true;
   };
 
   const handleDragLeave = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // Remove visual feedback
-    const uploadBox = (e.currentTarget as HTMLElement).querySelector('.upload-box');
-    if (uploadBox) {
-      uploadBox.classList.remove('drag-over');
-    }
+    isDragging.value = false;
   };
 
   const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    // Remove visual feedback
-    const uploadBox = (e.currentTarget as HTMLElement).querySelector('.upload-box');
-    if (uploadBox) {
-      uploadBox.classList.remove('drag-over');
-    }
+    isDragging.value = false;
     
     const files = e.dataTransfer?.files;
     if (files && files.length > 0) {
@@ -63,26 +53,25 @@ export default function FileUploadIsland({
   };
 
   const validateAndProcessFile = (file: File) => {
-    // Reset status
     uploadStatus.value = 'idle';
     errorMessage.value = '';
-
+  
     // Validate file type
-    if (!acceptedFileTypes.includes(file.type)) {
+    const validMimeTypes = acceptedFileTypes.map(type => type.mime);
+    if (!validMimeTypes.includes(file.type)) {
       uploadStatus.value = 'error';
-      errorMessage.value = 'Invalid file type. Please upload a supported file.';
+      errorMessage.value = `Invalid file type. Please upload ${acceptedFileTypes.map(type => type.label).join(' or ')} file.`;
       return;
     }
-
+  
     // Validate file size
     if (file.size > maxSizeInMB * 1024 * 1024) {
       uploadStatus.value = 'error';
       errorMessage.value = `File size exceeds ${maxSizeInMB}MB limit.`;
       return;
     }
-
+  
     try {
-      // Process valid file
       uploadStatus.value = 'uploading';
       onFileSelect(file);
       uploadStatus.value = 'success';
@@ -93,7 +82,7 @@ export default function FileUploadIsland({
   };
 
   const handleClick = () => {
-    document.getElementById(inputId)?.click();
+    inputRef.current?.click();
   };
 
   return (
@@ -102,20 +91,22 @@ export default function FileUploadIsland({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onClick={handleClick}
-      class="cursor-pointer"
+      class="cursor-pointer transition-all duration-200 hover:opacity-95"
     >
       <input
+        ref={inputRef}
         id={inputId}
         type="file"
         accept={acceptedFileTypes.join(',')}
         onChange={handleFileInput}
-        style="display: none"
+        class="hidden"
       />
       <FileUploadBox
         acceptedFileTypes={acceptedFileTypes}
         uploadStatus={uploadStatus.value}
         errorMessage={errorMessage.value}
         title={title}
+        isDragging={isDragging.value}
       />
     </div>
   );

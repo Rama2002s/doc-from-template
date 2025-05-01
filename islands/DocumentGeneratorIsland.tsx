@@ -20,8 +20,15 @@ const PLACEHOLDER_FORMATS = [
   { value: "dollar", label: "$(placeholder)", prefix: "$(", suffix: ")" },
 ];
 
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-const WORD_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+const EXCEL_TYPE = {
+  mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  label: 'Excel (.xls, .xlsx)',
+};
+
+const WORD_TYPE = {
+  mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  label: 'Word (.doc, .docx)',
+};
 
 export default function DocumentGeneratorIsland() {
   const [files, setFiles] = useState<FileState>({
@@ -96,18 +103,20 @@ export default function DocumentGeneratorIsland() {
   };
 
   return (
-    <div class="page-wrapper">
-      <div class="container">
-        <h1 class="page-title">
-          Document Generator
-        </h1>
-        <p class="page-subtitle">
-          Generate multiple documents from Excel data and Word templates
-        </p>
+    <div class="min-h-screen bg-gray-50 py-12 px-6 sm:px-8 lg:px-10 flex justify-center">
+      <div class="w-full max-w-4xl">
+        <div class="text-center mb-12">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            Document Generator
+          </h1>
+          <p class="text-xl text-gray-600">
+            Generate multiple documents from Excel data and Word templates
+          </p>
+        </div>
 
-        <div class="upload-section">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Excel Upload Container */}
-          <div class="upload-container">
+          <div class="flex flex-col gap-4">
             <FileUploadIsland
               onFileSelect={handleExcelFile}
               acceptedFileTypes={[EXCEL_TYPE]}
@@ -115,17 +124,27 @@ export default function DocumentGeneratorIsland() {
               title="Excel Data File"
             />
             {files.excel && (
-              <p class="file-success">
-                <svg class="success-icon" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              <div class="flex items-center gap-2 px-4 py-3 bg-green-50 text-green-700 rounded-lg">
+                <svg 
+                  class="w-5 h-5 text-green-500" 
+                  fill="currentColor" 
+                  viewBox="0 0 20 20"
+                >
+                  <path 
+                    fill-rule="evenodd" 
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                    clip-rule="evenodd"
+                  />
                 </svg>
-                {files.excel.name}
-              </p>
+                <span class="text-sm font-medium truncate">
+                  {files.excel.name}
+                </span>
+              </div>
             )}
           </div>
 
           {/* Word Upload Container */}
-          <div class="upload-container">
+          <div class="flex flex-col gap-4">
             <FileUploadIsland
               onFileSelect={handleWordFile}
               acceptedFileTypes={[WORD_TYPE]}
@@ -133,17 +152,27 @@ export default function DocumentGeneratorIsland() {
               title="Word Template"
             />
             {files.word && (
-              <p class="file-success">
-                <svg class="success-icon" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              <div class="flex items-center gap-2 px-4 py-3 bg-green-50 text-green-700 rounded-lg">
+                <svg 
+                  class="w-5 h-5 text-green-500" 
+                  fill="currentColor" 
+                  viewBox="0 0 20 20"
+                >
+                  <path 
+                    fill-rule="evenodd" 
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                    clip-rule="evenodd"
+                  />
                 </svg>
-                {files.word.name}
-              </p>
+                <span class="text-sm font-medium truncate">
+                  {files.word.name}
+                </span>
+              </div>
             )}
           </div>
         </div>
 
-        <div class="settings-panel">
+        <div class="mb-12">
           <PlaceholderSettings
             format={format}
             onFormatChange={setFormat}
@@ -152,23 +181,63 @@ export default function DocumentGeneratorIsland() {
         </div>
 
         {error && (
-          <div class="error-message">
-            {error}
+          <div class="mb-8 px-4 py-3 bg-red-50 text-red-700 rounded-lg">
+            <div class="flex items-center gap-2">
+              <svg 
+                class="w-5 h-5 text-red-500" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                />
+              </svg>
+              <span>{error}</span>
+            </div>
           </div>
         )}
 
         <button
-          class={`generate-button ${
-            isGenerating || !files.excel || !files.word
-              ? 'generate-button-disabled'
-              : 'generate-button-enabled'
-          }`}
           onClick={handleGenerate}
           disabled={!files.excel || !files.word || isGenerating}
+          class={`
+            w-full py-4 px-6 rounded-xl font-semibold text-lg
+            transition-all duration-200
+            ${isGenerating || !files.excel || !files.word
+              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              : 'bg-purple-600 text-white hover:bg-purple-700 active:transform active:scale-[0.99]'
+            }
+            ${isGenerating ? 'flex items-center justify-center gap-3' : ''}
+          `}
         >
+          {isGenerating && (
+            <svg 
+              class="animate-spin h-5 w-5" 
+              fill="none" 
+              viewBox="0 0 24 24"
+            >
+              <circle 
+                class="opacity-25" 
+                cx="12" 
+                cy="12" 
+                r="10" 
+                stroke="currentColor" 
+                strokeWidth="4"
+              />
+              <path 
+                class="opacity-75" 
+                fill="currentColor" 
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+          )}
           {isGenerating ? 'Generating Documents...' : 'Generate Documents'}
         </button>
       </div>
     </div>
   );
-}
+} 

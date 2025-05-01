@@ -10,10 +10,14 @@ export const EXCEL_MIME_TYPES = [
   
   export function isExcelFile(file: File): boolean {
     const extension = file.name.split('.').pop()?.toLowerCase();
-    return extension === 'xlsx' || extension === 'xls';
+    const isValidExtension = extension === 'xlsx' || extension === 'xls';
+    const isValidMimeType = EXCEL_MIME_TYPES.includes(file.type);
+    return isValidExtension && isValidMimeType;
   }
   
   export function isWordFile(file: File): boolean {
     const extension = file.name.split('.').pop()?.toLowerCase();
-    return extension === 'docx' || extension === 'doc';
+    const isValidExtension = extension === 'docx' || extension === 'doc';
+    const isValidMimeType = WORD_MIME_TYPES.includes(file.type);
+    return isValidExtension && isValidMimeType;
   }

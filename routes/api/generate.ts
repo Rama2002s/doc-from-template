@@ -72,7 +72,7 @@ export const handler = async (req: Request, _ctx: HandlerContext): Promise<Respo
 
   } catch (error) {
     console.error("Error generating documents:", error);
-    return new Response(JSON.stringify({ error: error.message }), { 
+    return new Response(JSON.stringify({ error: "An error occurred while generating documents. Please try again later." }), { 
       status: 500,
       headers: {
         "Content-Type": "application/json",
