@@ -21,12 +21,22 @@ const PLACEHOLDER_FORMATS = [
 ];
 
 const EXCEL_TYPE = {
-  mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  accept: [
+    '.xls',
+    '.xlsx',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  ],
   label: 'Excel (.xls, .xlsx)',
 };
 
 const WORD_TYPE = {
-  mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  accept: [
+    '.doc',
+    '.docx',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  ],
   label: 'Word (.doc, .docx)',
 };
 
@@ -119,7 +129,7 @@ export default function DocumentGeneratorIsland() {
           <div class="flex flex-col gap-4">
             <FileUploadIsland
               onFileSelect={handleExcelFile}
-              acceptedFileTypes={[EXCEL_TYPE]}
+              acceptedFileTypes={EXCEL_TYPE.accept}
               maxSizeInMB={10}
               title="Excel Data File"
             />
@@ -147,7 +157,7 @@ export default function DocumentGeneratorIsland() {
           <div class="flex flex-col gap-4">
             <FileUploadIsland
               onFileSelect={handleWordFile}
-              acceptedFileTypes={[WORD_TYPE]}
+              acceptedFileTypes={WORD_TYPE.accept}
               maxSizeInMB={10}
               title="Word Template"
             />

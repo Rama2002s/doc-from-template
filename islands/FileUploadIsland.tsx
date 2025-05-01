@@ -2,6 +2,7 @@
 import { useSignal } from "@preact/signals";
 import { useRef } from "preact/hooks";
 import { FileUploadBox } from "../components/FileUploadBox.tsx";
+import { isExcelFile, isWordFile } from "../utils/fileValidation.ts";
 
 interface FileUploadIslandProps {
   onFileSelect: (file: File) => void;
@@ -55,12 +56,17 @@ export default function FileUploadIsland({
   const validateAndProcessFile = (file: File) => {
     uploadStatus.value = 'idle';
     errorMessage.value = '';
-  
-    // Validate file type
-    const validMimeTypes = acceptedFileTypes.map(type => type.mime);
-    if (!validMimeTypes.includes(file.type)) {
+
+    // Validate file type using shared utils
+    let isValidType = false;
+    if (title.toLowerCase().includes('excel')) {
+      isValidType = isExcelFile(file);
+    } else if (title.toLowerCase().includes('word')) {
+      isValidType = isWordFile(file);
+    }
+    if (!isValidType) {
       uploadStatus.value = 'error';
-      errorMessage.value = `Invalid file type. Please upload ${acceptedFileTypes.map(type => type.label).join(' or ')} file.`;
+      errorMessage.value = `Invalid file type. Please upload a valid ${title} file.`;
       return;
     }
   
