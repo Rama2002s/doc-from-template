@@ -1,129 +1,236 @@
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-* {
-  margin: 0;
-}
-button {
-  color: inherit;
-}
-button, [role="button"] {
-  cursor: pointer;
-}
-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
-  font-size: 1em;
-}
-img,
-svg {
-  display: block;
-}
-img,
-video {
-  max-width: 100%;
-  height: auto;
+/* Base styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }
 
-html {
-  line-height: 1.5;
-  -webkit-text-size-adjust: 100%;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+.page-wrapper {
+  min-height: 100vh;
+  background-color: white; /* Changed to white background */
+  padding: 2rem;
 }
-.transition-colors {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+
+/* Typography */
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1f1f1f; /* Changed to dark text */
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
-.my-6 {
+
+.page-subtitle {
+  color: #666; /* Changed to gray text */
+  text-align: center;
+  margin-bottom: 3rem; /* Increased margin */
+}
+
+/* Upload grid */
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .upload-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Upload box */
+.upload-box {
+  border: 2px dashed rgba(107, 71, 237, 0.3); /* Changed to purple */
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #6b47ed; /* Smallpdf purple */
+  transition: all 0.2s ease;
+}
+
+.upload-box:hover {
+  background-color: #5a3dd4; /* Darker purple on hover */
+}
+
+.upload-icon {
+  width: 80px; /* Larger icon */
+  height: 80px;
+  color: white;
   margin-bottom: 1.5rem;
-  margin-top: 1.5rem;
 }
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+
+.upload-text {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
 }
-.mx-2 {
-  margin-left: 0.5rem;
+
+.upload-subtext {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.browse-button {
+  background-color: white;
+  color: #1f1f1f; /* Dark text */
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.browse-button:hover {
+  background-color: #f8f8f8;
+}
+
+/* File success message */
+.file-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6b47ed;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.success-icon {
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.5rem;
 }
-.my-4 {
-  margin-bottom: 1rem;
+
+/* Settings panel */
+.settings-panel {
+  background-color: #f8f8f8;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Error message */
+.error-message {
+  background-color: #fee2e2;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+/* Generate button */
+.generate-button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.generate-button-enabled {
+  background-color: #6b47ed;
+  color: white;
+}
+
+.generate-button-enabled:hover {
+  background-color: #5a3dd4;
+}
+
+.generate-button-disabled {
+  background-color: #e5e7eb;
+  cursor: not-allowed;
+  color: #9ca3af;
+}
+
+/* Upload status */
+.upload-status-error {
+  color: #dc2626;
+  font-size: 0.875rem;
   margin-top: 1rem;
 }
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-.py-8 {
-  padding-bottom: 2rem;
-  padding-top: 2rem;
-}
-.bg-\[\#86efac\] {
-  background-color: #86efac;
-}
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-.py-6 {
-  padding-bottom: 1.5rem;
-  padding-top: 1.5rem;
-}
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-.py-1 {
-  padding-bottom: 0.25rem;
-  padding-top: 0.25rem;
-}
-.border-gray-500 {
-  border-color: #6b7280;
-}
-.bg-white {
-  background-color: #fff;
-}
-.flex {
-  display: flex;
-}
-.gap-8 {
-  grid-gap: 2rem;
+
+/* Features section (new) */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  margin: 4rem 0;
 }
-.font-bold {
-  font-weight: 700;
+
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
 }
-.max-w-screen-md {
-  max-width: 768px;
+
+.feature-card {
+  text-align: center;
+  padding: 1.5rem;
 }
-.flex-col {
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  color: #6b47ed;
+}
+
+.feature-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f1f1f;
+}
+
+.feature-text {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.upload-box {
+  /* ... existing styles ... */
+  transition: all 0.2s ease;
+}
+
+.upload-box.drag-over {
+  border-color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.upload-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+
+  .upload-section {
+
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+}
+
+.upload-container {
+  display: flex;
   flex-direction: column;
-}
-.items-center {
-  align-items: center;
-}
-.justify-center {
-  justify-content: center;
-}
-.border-2 {
-  border-width: 2px;
-}
-.rounded {
-  border-radius: 0.25rem;
-}
-.hover\:bg-gray-200:hover {
-  background-color: #e5e7eb;
-}
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
+  gap: 0.75rem;
 }
