@@ -29,7 +29,7 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "long-salmon-36"
+          project: "doc-from-template"
           entrypoint: "main.ts"
           root: "."
           
