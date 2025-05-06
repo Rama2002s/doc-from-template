@@ -1040,7 +1040,9 @@
     }
   },
   "redirects": {
-    "https://esm.sh/@types/babel__helper-validator-identifier@~7.15.2/index.d.ts": "https://esm.sh/@types/babel__helper-validator-identifier@7.15.2/index.d.ts"
+    "https://esm.sh/@types/babel__helper-validator-identifier@~7.15.2/index.d.ts": "https://esm.sh/@types/babel__helper-validator-identifier@7.15.2/index.d.ts",
+    "https://esm.sh/@xmldom/xmldom@^0.8.8?target=denonext": "https://esm.sh/@xmldom/xmldom@0.8.10?target=denonext",
+    "https://esm.sh/pako@^2.1.0/dist/pako.es5?target=denonext": "https://esm.sh/pako@2.1.0/dist/pako.es5?target=denonext"
   },
   "remote": {
     "https://cdn.sheetjs.com/xlsx-0.19.3/package/xlsx.mjs": "bd46bbded8bebaf8ba95a8cc8c44db359c8b02307a6e82407a1b4a0e73546c87",
@@ -1390,6 +1392,14 @@
     "https://esm.sh/*preact-render-to-string@6.3.1/denonext/preact-render-to-string.mjs": "859e9f3dc137a53c17542bbed4cf8accdca81a2895d7a52d1fca38e6c5c00c90",
     "https://esm.sh/@babel/helper-validator-identifier@7.22.20": "3b0b7d94b8ac689175ecb7e72183b07c6a771cc7680a7c9916091add73bd7f88",
     "https://esm.sh/@babel/helper-validator-identifier@7.22.20/denonext/helper-validator-identifier.mjs": "f765fd69eb4fd81b839b76bf60f227caac4fe4d41b4c646cc08aa7b8d948fe17",
+    "https://esm.sh/@xmldom/xmldom@0.8.10/denonext/xmldom.mjs": "1a2cb0427a50ee0dcbd91cd300329f92f9ad21ffbf5b7f9ef7d2e4da93df65ed",
+    "https://esm.sh/@xmldom/xmldom@0.8.10?target=denonext": "ce046864127d9d756879f6a5142683e078632d23a2f2fecddb6b6c7386548f1c",
+    "https://esm.sh/docxtemplater@3.37.10": "824a56e3750244037257a0da6c51d0378774fe58b9c417c4e0642f2e56731892",
+    "https://esm.sh/docxtemplater@3.37.10/denonext/docxtemplater.mjs": "1880272a7859e5e9e0e858a819a671035ccd674b1f08ffbcbce66c9b43976430",
+    "https://esm.sh/pako@2.1.0/denonext/dist/pako.es5.mjs": "6813302fb5f7b31e32cf8e881390d0a8592c86eeb99c8b3cd2aadd1d0fa0edac",
+    "https://esm.sh/pako@2.1.0/dist/pako.es5?target=denonext": "0129a757b653dbb5ea9afcd87a89353e16ed4d00e3cd0a8ba79996d46204c2c7",
+    "https://esm.sh/pizzip@3.1.4": "20f9d9ae2819def8dc9473ad56e496bf9ccd94a3d0ca5b3374530e61e7cc62d1",
+    "https://esm.sh/pizzip@3.1.4/denonext/pizzip.mjs": "1cf77917d611eb36f9578ad2c519797293a8714ac4818379c8d4bd05b2a0d020",
     "https://esm.sh/preact@10.22.0": "0fb9b89617c3a27b6be4eee74bd07b845e92900e6b7fdb757bc3a498a6ec9065",
     "https://esm.sh/preact@10.22.0/debug": "fb8d7b9ea5c7bbfb6cb9d9f9abfa31e8038b08ec623ec029f8feafbe6c5891e4",
     "https://esm.sh/preact@10.22.0/denonext/debug.mjs": "dfb39c01d509fab4948036bc2e6ad5ecd26ed5d7242e97be163ba575c815f01e",
@@ -1398,7 +1408,9 @@
     "https://esm.sh/preact@10.22.0/denonext/jsx-runtime.mjs": "9c20426e7e6c4b17b6f912ab90df23d55138dd3d719bce34563b775f9d70b6b2",
     "https://esm.sh/preact@10.22.0/denonext/preact.mjs": "4d84d31589efc25c9c066968c07fa9ac3db53831b34a4c46535d0c724cdb486e",
     "https://esm.sh/preact@10.22.0/hooks": "8a1ea3148ef7373b9c3dc027a147ff6728a4e53e10e3506c1191b087f0e564e1",
-    "https://esm.sh/preact@10.22.0/jsx-runtime": "6c6117abd414386ed23785f7c198e03bee696c1fa0fee01b72a64abe5e7ae7fb"
+    "https://esm.sh/preact@10.22.0/jsx-runtime": "6c6117abd414386ed23785f7c198e03bee696c1fa0fee01b72a64abe5e7ae7fb",
+    "https://esm.sh/xlsx@0.18.5": "feaad96c2697fd87d8d2cbf00030869f6f3cb87afc6f58c92602f1e33309dc03",
+    "https://esm.sh/xlsx@0.18.5/denonext/xlsx.mjs": "8d4ffaee8d26c9cf8b07a16cb49d7ecb47abe95a5ec4bf850e0e29281101a595"
   },
   "workspace": {
     "dependencies": [

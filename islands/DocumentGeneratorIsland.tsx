@@ -63,55 +63,88 @@ export default function DocumentGeneratorIsland() {
     setFileErrors(prev => ({ ...prev, word: null }));
   };
 
-  const handleGenerate = async () => {
-    // if (!files.excel || !files.word) {
-    //   setError('Please upload both Excel and Word files');
-    //   return;
-    // }
+const handleGenerate = async () => {
+  if (!files.excel || !files.word) {
+    setError('Please upload both Excel and Word files');
+    return;
+  }
 
-    // const selectedFormat = PLACEHOLDER_FORMATS.find(f => f.value === format);
-    // if (!selectedFormat) {
-    //   setError('Invalid placeholder format');
-    //   return;
-    // }
+  const selectedFormat = PLACEHOLDER_FORMATS.find(f => f.value === format);
+  if (!selectedFormat) {
+    setError('Invalid placeholder format');
+    return;
+  }
 
-    // setIsGenerating(true);
-    // setError(null);
+  setIsGenerating(true);
+  setError(null);
 
-    // const formData = new FormData();
-    // formData.append('excel', files.excel);
-    // formData.append('word', files.word);
-    // formData.append('prefix', selectedFormat.prefix);
-    // formData.append('suffix', selectedFormat.suffix);
+  const formData = new FormData();
+  formData.append('excel', files.excel);
+  formData.append('word', files.word);
+  formData.append('prefix', selectedFormat.prefix);
+  formData.append('suffix', selectedFormat.suffix);
 
-    // try {
-    //   const response = await fetch('/api/generate', {
-    //     method: 'POST',
-    //     body: formData,
-    //   });
+  try {
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      body: formData,
+    });
 
-    //   if (!response.ok) {
-    //     throw new Error(await response.text());
-    //   }
+    if (!response.ok) {
+      let errorMessage = 'Failed to generate documents. Please try again.'; // Default error
+      try {
+        // Check if the response is JSON, as our API intends
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          if (errorData && errorData.error) {
+            errorMessage = errorData.error;
+          } else {
+            // Fallback if JSON is malformed or doesn't have an error field
+            errorMessage = `Server error: ${response.status} ${response.statusText}`;
+          }
+        } else {
+          // If not JSON, try to get text (e.g., for unexpected server errors like HTML error pages)
+          errorMessage = await response.text() || `Server error: ${response.status} ${response.statusText}`;
+        }
+      } catch (e) {
+        // Catch errors during error parsing itself (e.g., response.json() fails)
+        console.error("Error parsing error response:", e);
+        errorMessage = `Failed to parse server error response. Status: ${response.status}`;
+      }
+      throw new Error(errorMessage);
+    }
 
-    //   const blob = await response.blob();
-    //   const url = window.URL.createObjectURL(blob);
-    //   const a = document.createElement('a');
-    //   a.href = url;
-    //   a.download = 'generated_documents.zip';
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   window.URL.revokeObjectURL(url);
-    //   document.body.removeChild(a);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
 
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   setError(error instanceof Error ? error.message : 'Failed to generate documents');
-    // } finally {
-    //   setIsGenerating(false);
-    // }
-    console.log(files);
-  };
+    // Attempt to get filename from Content-Disposition header
+    let downloadFilename = 'generated_documents.zip'; // Default filename
+    const disposition = response.headers.get('Content-Disposition');
+    if (disposition && disposition.includes('attachment')) {
+      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = filenameRegex.exec(disposition);
+      if (matches != null && matches[1]) {
+        downloadFilename = matches[1].replace(/['"]/g, '');
+      }
+    }
+    a.download = downloadFilename;
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a); // Clean up the anchor element
+    window.URL.revokeObjectURL(url); // Clean up the object URL
+
+  } catch (error) {
+    console.error('Client-side error or API error:', error);
+    setError(error instanceof Error ? error.message : 'An unexpected error occurred.');
+  } finally {
+    setIsGenerating(false);
+  }
+};
+
 
   return (
     <div class="min-h-screen bg-gray-50 py-12 px-6 sm:px-8 lg:px-10 flex justify-center">
