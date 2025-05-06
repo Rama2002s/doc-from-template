@@ -64,52 +64,53 @@ export default function DocumentGeneratorIsland() {
   };
 
   const handleGenerate = async () => {
-    if (!files.excel || !files.word) {
-      setError('Please upload both Excel and Word files');
-      return;
-    }
+    // if (!files.excel || !files.word) {
+    //   setError('Please upload both Excel and Word files');
+    //   return;
+    // }
 
-    const selectedFormat = PLACEHOLDER_FORMATS.find(f => f.value === format);
-    if (!selectedFormat) {
-      setError('Invalid placeholder format');
-      return;
-    }
+    // const selectedFormat = PLACEHOLDER_FORMATS.find(f => f.value === format);
+    // if (!selectedFormat) {
+    //   setError('Invalid placeholder format');
+    //   return;
+    // }
 
-    setIsGenerating(true);
-    setError(null);
+    // setIsGenerating(true);
+    // setError(null);
 
-    const formData = new FormData();
-    formData.append('excel', files.excel);
-    formData.append('word', files.word);
-    formData.append('prefix', selectedFormat.prefix);
-    formData.append('suffix', selectedFormat.suffix);
+    // const formData = new FormData();
+    // formData.append('excel', files.excel);
+    // formData.append('word', files.word);
+    // formData.append('prefix', selectedFormat.prefix);
+    // formData.append('suffix', selectedFormat.suffix);
 
-    try {
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        body: formData,
-      });
+    // try {
+    //   const response = await fetch('/api/generate', {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
 
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
+    //   if (!response.ok) {
+    //     throw new Error(await response.text());
+    //   }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'generated_documents.zip';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+    //   const blob = await response.blob();
+    //   const url = window.URL.createObjectURL(blob);
+    //   const a = document.createElement('a');
+    //   a.href = url;
+    //   a.download = 'generated_documents.zip';
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   window.URL.revokeObjectURL(url);
+    //   document.body.removeChild(a);
 
-    } catch (error) {
-      console.error('Error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to generate documents');
-    } finally {
-      setIsGenerating(false);
-    }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    //   setError(error instanceof Error ? error.message : 'Failed to generate documents');
+    // } finally {
+    //   setIsGenerating(false);
+    // }
+    console.log(files);
   };
 
   return (
